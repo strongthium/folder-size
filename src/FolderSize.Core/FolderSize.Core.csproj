@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Everything of folder-size that isn't the window: the two ways of scanning (NTFS's file table read directly, and
+       folders listed in parallel), what a scan found, the treemap's layout and the sample data. Kept apart from the UI
+       so that tests/ can run it headless. -->
+  <PropertyGroup>
+    <!-- It reads NTFS and calls Windows: Windows only. -->
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <RootNamespace>Strongthium.FolderSize</RootNamespace>
+    <IsTrimmable>true</IsTrimmable>
+    <!-- LibraryImport (kernel32, ntdll, shell32) and reading the file table's records in place are unsafe code. -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="FolderSize.Tests" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,122 @@
+<UserControl x:Class="Strongthium.FolderSize.App.FoldersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <!-- The folders as a tree, largest first: each line a folder (or a folder's files together, or a file), with its
+       size, its size on disk, its share of the folder it's in, and how many files and folders are under it. A
+       ListView of lines rather than a TreeView, so that only the lines on screen are made: a folder of 50,000 opens
+       at once. -->
+  <ListView x:Name="List" BorderThickness="0" Background="Transparent" SelectionMode="Single"
+            VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"
+            KeyDown="List_KeyDown" MouseDoubleClick="List_MouseDoubleClick" ContextMenuOpening="List_ContextMenuOpening">
+    <ListView.ItemContainerStyle>
+      <Style TargetType="ListViewItem" BasedOn="{StaticResource {x:Static GridView.GridViewItemContainerStyleKey}}">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="MinHeight" Value="34" />
+        <Setter Property="Padding" Value="6,2" />
+      </Style>
+    </ListView.ItemContainerStyle>
+    <ListView.View>
+      <GridView AllowsColumnReorder="False">
+        <GridViewColumn Width="400">
+          <GridViewColumn.Header>
+            <GridViewColumnHeader Tag="Name" Click="Header_Click" HorizontalContentAlignment="Left" Content="Name" />
+          </GridViewColumn.Header>
+          <GridViewColumn.CellTemplate>
+            <DataTemplate>
+              <StackPanel Orientation="Horizontal" Margin="{Binding Indent}">
+                <Grid Width="24" Height="24">
+                  <Button Style="{StaticResource Bare}" Padding="0" Click="Expand_Click" Focusable="False" HorizontalContentAlignment="Center"
+                          Visibility="{Binding CanExpand, Converter={StaticResource VisibleIf}}">
+                    <TextBlock Text="{Binding Chevron}" Style="{StaticResource Icon}" FontSize="10" />
+                  </Button>
+                </Grid>
+                <Image Source="{StaticResource FolderIcon}" Width="18" Height="18" Margin="4,0,0,0"
+                       Visibility="{Binding IsFolder, Converter={StaticResource VisibleIf}}" />
+                <TextBlock Text="{Binding FileGlyph}" Style="{StaticResource Icon}" Width="18" Margin="4,0,0,0" TextAlignment="Center"
+                           Foreground="{DynamicResource TextFillColorSecondaryBrush}" Visibility="{Binding IsFiles, Converter={StaticResource VisibleIf}}" />
+                <TextBlock Text="{Binding Name}" Margin="10,0,0,0" VerticalAlignment="Center" />
+                <TextBlock Text="{Binding Note}" Style="{StaticResource Caption}" Margin="10,0,0,0" VerticalAlignment="Center"
+                           Foreground="{DynamicResource SystemFillColorCautionBrush}" />
+              </StackPanel>
+            </DataTemplate>
+          </GridViewColumn.CellTemplate>
+        </GridViewColumn>
+        <GridViewColumn Width="100">
+          <GridViewColumn.Header>
+            <GridViewColumnHeader Tag="Size" Click="Header_Click" HorizontalContentAlignment="Right" Content="Size" />
+          </GridViewColumn.Header>
+          <GridViewColumn.CellTemplate>
+            <DataTemplate>
+              <TextBlock Text="{Binding SizeText}" HorizontalAlignment="Right" FontWeight="SemiBold" />
+            </DataTemplate>
+          </GridViewColumn.CellTemplate>
+        </GridViewColumn>
+        <GridViewColumn Width="150">
+          <GridViewColumn.Header>
+            <GridViewColumnHeader Tag="Size" Click="Header_Click" HorizontalContentAlignment="Left" Content="Share of folder" />
+          </GridViewColumn.Header>
+          <GridViewColumn.CellTemplate>
+            <DataTemplate>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="60" />
+                </Grid.ColumnDefinitions>
+                <Border Style="{StaticResource Track}" VerticalAlignment="Center">
+                  <Grid>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="{Binding ShareFill}" />
+                      <ColumnDefinition Width="{Binding ShareRest}" />
+                    </Grid.ColumnDefinitions>
+                    <Border CornerRadius="3" Background="{DynamicResource AccentFillColorDefaultBrush}" />
+                  </Grid>
+                </Border>
+                <TextBlock Grid.Column="1" Text="{Binding ShareText}" HorizontalAlignment="Right" Style="{StaticResource Muted}" />
+              </Grid>
+            </DataTemplate>
+          </GridViewColumn.CellTemplate>
+        </GridViewColumn>
+        <GridViewColumn Width="92">
+          <GridViewColumn.Header>
+            <GridViewColumnHeader Tag="Allocated" Click="Header_Click" HorizontalContentAlignment="Right" Content="On disk" />
+          </GridViewColumn.Header>
+          <GridViewColumn.CellTemplate>
+            <DataTemplate>
+              <TextBlock Text="{Binding AllocatedText}" HorizontalAlignment="Right" Style="{StaticResource Muted}" />
+            </DataTemplate>
+          </GridViewColumn.CellTemplate>
+        </GridViewColumn>
+        <GridViewColumn Width="80">
+          <GridViewColumn.Header>
+            <GridViewColumnHeader Tag="Files" Click="Header_Click" HorizontalContentAlignment="Right" Content="Files" />
+          </GridViewColumn.Header>
+          <GridViewColumn.CellTemplate>
+            <DataTemplate>
+              <TextBlock Text="{Binding FilesText}" HorizontalAlignment="Right" Style="{StaticResource Muted}" />
+            </DataTemplate>
+          </GridViewColumn.CellTemplate>
+        </GridViewColumn>
+        <GridViewColumn Width="76">
+          <GridViewColumn.Header>
+            <GridViewColumnHeader Tag="Folders" Click="Header_Click" HorizontalContentAlignment="Right" Content="Folders" />
+          </GridViewColumn.Header>
+          <GridViewColumn.CellTemplate>
+            <DataTemplate>
+              <TextBlock Text="{Binding FoldersText}" HorizontalAlignment="Right" Style="{StaticResource Muted}" />
+            </DataTemplate>
+          </GridViewColumn.CellTemplate>
+        </GridViewColumn>
+        <GridViewColumn Width="100">
+          <GridViewColumn.Header>
+            <GridViewColumnHeader Tag="Modified" Click="Header_Click" HorizontalContentAlignment="Right" Content="Modified" />
+          </GridViewColumn.Header>
+          <GridViewColumn.CellTemplate>
+            <DataTemplate>
+              <TextBlock Text="{Binding ModifiedText}" HorizontalAlignment="Right" Style="{StaticResource Muted}" />
+            </DataTemplate>
+          </GridViewColumn.CellTemplate>
+        </GridViewColumn>
+      </GridView>
+    </ListView.View>
+  </ListView>
+</UserControl>

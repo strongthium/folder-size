@@ -1,0 +1,116 @@
+<UserControl x:Class="Strongthium.FolderSize.App.TypesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <!-- The space by file type: a bar of the largest eight and the rest, then every extension. -->
+  <DockPanel>
+    <StackPanel DockPanel.Dock="Top" Margin="20,18,20,8">
+      <!-- The bar: each type a part as wide as its share. -->
+      <Border CornerRadius="5" Height="14" ClipToBounds="True">
+        <Grid x:Name="Bar" />
+      </Border>
+      <ItemsControl x:Name="Legend" Margin="0,12,0,0">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <WrapPanel />
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <StackPanel Orientation="Horizontal" Margin="0,0,20,6">
+              <Border Width="10" Height="10" CornerRadius="2" Background="{Binding Swatch}" VerticalAlignment="Center" />
+              <TextBlock Text="{Binding Name}" Margin="7,0,0,0" FontWeight="SemiBold" />
+              <TextBlock Text="{Binding SizeText}" Margin="6,0,0,0" Style="{StaticResource Muted}" />
+            </StackPanel>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </StackPanel>
+
+    <ListView x:Name="List" BorderThickness="0" Background="Transparent" SelectionMode="Single"
+              VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling">
+      <ListView.ItemContainerStyle>
+        <Style TargetType="ListViewItem" BasedOn="{StaticResource {x:Static GridView.GridViewItemContainerStyleKey}}">
+          <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+          <Setter Property="MinHeight" Value="34" />
+          <Setter Property="Padding" Value="6,2" />
+        </Style>
+      </ListView.ItemContainerStyle>
+      <ListView.View>
+        <GridView AllowsColumnReorder="False">
+          <GridViewColumn Width="220" Header="Type">
+            <GridViewColumn.CellTemplate>
+              <DataTemplate>
+                <StackPanel Orientation="Horizontal">
+                  <Border Width="12" Height="12" CornerRadius="3" Background="{Binding Swatch}" VerticalAlignment="Center" Margin="4,0,12,0" />
+                  <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+                </StackPanel>
+              </DataTemplate>
+            </GridViewColumn.CellTemplate>
+          </GridViewColumn>
+          <GridViewColumn Width="100">
+            <GridViewColumn.Header>
+              <GridViewColumnHeader HorizontalContentAlignment="Right" Content="Size" />
+            </GridViewColumn.Header>
+            <GridViewColumn.CellTemplate>
+              <DataTemplate>
+                <TextBlock Text="{Binding SizeText}" HorizontalAlignment="Right" FontWeight="SemiBold" />
+              </DataTemplate>
+            </GridViewColumn.CellTemplate>
+          </GridViewColumn>
+          <GridViewColumn Width="190" Header="Share of all">
+            <GridViewColumn.CellTemplate>
+              <DataTemplate>
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="60" />
+                  </Grid.ColumnDefinitions>
+                  <Border Style="{StaticResource Track}" VerticalAlignment="Center">
+                    <Grid>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{Binding ShareFill}" />
+                        <ColumnDefinition Width="{Binding ShareRest}" />
+                      </Grid.ColumnDefinitions>
+                      <Border CornerRadius="3" Background="{Binding Swatch}" />
+                    </Grid>
+                  </Border>
+                  <TextBlock Grid.Column="1" Text="{Binding ShareText}" HorizontalAlignment="Right" Style="{StaticResource Muted}" />
+                </Grid>
+              </DataTemplate>
+            </GridViewColumn.CellTemplate>
+          </GridViewColumn>
+          <GridViewColumn Width="100">
+            <GridViewColumn.Header>
+              <GridViewColumnHeader HorizontalContentAlignment="Right" Content="On disk" />
+            </GridViewColumn.Header>
+            <GridViewColumn.CellTemplate>
+              <DataTemplate>
+                <TextBlock Text="{Binding AllocatedText}" HorizontalAlignment="Right" Style="{StaticResource Muted}" />
+              </DataTemplate>
+            </GridViewColumn.CellTemplate>
+          </GridViewColumn>
+          <GridViewColumn Width="100">
+            <GridViewColumn.Header>
+              <GridViewColumnHeader HorizontalContentAlignment="Right" Content="Files" />
+            </GridViewColumn.Header>
+            <GridViewColumn.CellTemplate>
+              <DataTemplate>
+                <TextBlock Text="{Binding CountText}" HorizontalAlignment="Right" Style="{StaticResource Muted}" />
+              </DataTemplate>
+            </GridViewColumn.CellTemplate>
+          </GridViewColumn>
+          <GridViewColumn Width="110">
+            <GridViewColumn.Header>
+              <GridViewColumnHeader HorizontalContentAlignment="Right" Content="Average" />
+            </GridViewColumn.Header>
+            <GridViewColumn.CellTemplate>
+              <DataTemplate>
+                <TextBlock Text="{Binding AverageText}" HorizontalAlignment="Right" Style="{StaticResource Muted}" />
+              </DataTemplate>
+            </GridViewColumn.CellTemplate>
+          </GridViewColumn>
+        </GridView>
+      </ListView.View>
+    </ListView>
+  </DockPanel>
+</UserControl>
