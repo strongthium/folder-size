@@ -72,6 +72,7 @@ public sealed partial class MainWindow : Window
     private readonly Stopwatch clock = new();
     private readonly DispatcherTimer ticker = new() { Interval = TimeSpan.FromMilliseconds(100) };
     private List<Place> places = [];
+    private Window? about;
 
     public MainWindow()
     {
@@ -104,6 +105,7 @@ public sealed partial class MainWindow : Window
             LoadPlaces();
             if (Program.StartPath is { } path) Scan(path);
         }
+        if (Program.ShowAbout) About_Click(this, new RoutedEventArgs());
         if (result is null) return;
         if (Program.Expand is { } expand) FoldersPage.Open(expand);
         var tab = Program.StartView switch
@@ -283,6 +285,18 @@ public sealed partial class MainWindow : Window
     {
         var dialog = new OpenFolderDialog { Title = "Choose a folder to scan" };
         if (dialog.ShowDialog(this) == true) Scan(dialog.FolderName);
+    }
+
+    /// <summary>In a window of its own, so that what's scanned stays on the screen.</summary>
+    private void About_Click(object sender, RoutedEventArgs e)
+    {
+        if (about is null)
+        {
+            about = new Window { Title = "About Folder Size", Icon = App.Icon, Owner = this, Width = 900, Height = 780, MinWidth = 560, MinHeight = 400, WindowStartupLocation = WindowStartupLocation.CenterOwner, Content = new AboutPage() };
+            about.Closed += (_, _) => about = null;
+            about.Show();
+        }
+        else about.Activate();
     }
 
     private void Stop_Click(object sender, RoutedEventArgs e) => scanning?.Cancel();

@@ -8,7 +8,7 @@
 it added up, largest first, as a tree, a treemap, the largest files and the space by file type. Run as administrator,
 it reads an NTFS drive's own file table instead of opening every folder, and scans a whole drive in seconds.
 
-It runs on Windows 10 and 11, is one file of about 400 KB with nothing to install, and sends nothing anywhere.
+It runs on Windows 10 and 11, is one file of about 450 KB with nothing to install, and sends nothing anywhere unless you open About, which asks GitHub for the latest version.
 
 ![The folders](docs/folders.png)
 
@@ -103,7 +103,7 @@ above: about 70 MB); a folder's files are read again when they're opened in the 
 ## Using it
 
 Download a zip from [Releases](../../releases/latest), or take the `.exe` straight from [`public/`](public), which
-always holds the latest build: `folder-size-win-x64-needs-dotnet.exe`, about 400 KB, for Windows 10 and 11 on x64
+always holds the latest build: `folder-size-win-x64-needs-dotnet.exe`, about 450 KB, for Windows 10 and 11 on x64
 PCs. It runs on the [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) installed on the PC,
 which Microsoft Update keeps patched. Without it, Windows offers to download it.
 
@@ -121,11 +121,18 @@ folder-size --sample                      # the made-up PC of the pictures, noth
 folder-size --theme dark                  # light or dark, rather than following Windows
 folder-size --sample --view treemap       # opens on folders, treemap, largest or types
 folder-size --sample --expand Users\Alex  # opens the folders down to that one
+folder-size --about                       # opens About as well
 ```
+
+## About and updates
+
+**About** (at the bottom of the side, in a window of its own) says who makes `folder-size`, with links to Strongthium, and asks GitHub whether there's a newer version. If there is, **Update** downloads the release, checks it against the release's `SHA256SUMS`, replaces the program and starts it again. If the program's folder can't be changed without an administrator, it says so, and **What's new** leads to the release to download by hand. The checksums come with the release, so they catch a damaged download, not a tampered release.
+
+GitHub is asked only when About is opened, again if it's still open an hour later, or when **Check again** is pressed. `api.github.com` sees that the question came from your address, and which program and version asked.
 
 ## Your data
 
-Nothing is sent anywhere and nothing is saved: a scan lives in memory until the window is closed. The only change it
+Nothing about your disks is sent anywhere and nothing is saved: a scan lives in memory until the window is closed. The only change it
 ever makes to the disk is moving what you choose to the Recycle Bin.
 
 ## Building

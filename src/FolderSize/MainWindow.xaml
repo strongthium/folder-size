@@ -19,6 +19,13 @@
         <TextBlock Text="Folder Size" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center" Margin="12,0,0,0" />
       </StackPanel>
 
+      <Button DockPanel.Dock="Bottom" Style="{StaticResource Bare}" Click="About_Click" Margin="0,8,0,0" Padding="14,9" HorizontalAlignment="Stretch">
+        <StackPanel Orientation="Horizontal">
+          <TextBlock Text="&#xE946;" Style="{StaticResource Icon}" FontSize="18" />
+          <TextBlock Text="About" Margin="13,0,0,0" />
+        </StackPanel>
+      </Button>
+
       <!-- Reading a drive's file table needs an administrator. -->
       <Border x:Name="AdminCard" DockPanel.Dock="Bottom" Style="{StaticResource Card}" Padding="14,12" Margin="4,0">
         <StackPanel>

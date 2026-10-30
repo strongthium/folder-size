@@ -97,4 +97,4 @@ jobs:
             --repo "$GITHUB_REPOSITORY" \
             --target "$GITHUB_SHA" \
             --title "folder-size $VERSION" \
-            --notes "Built from $GITHUB_SHA on the deploy branch. For Windows 10 and 11 on x64 PCs: unpack and run \`folder-size.exe\` (about 400 KB). It runs on the .NET 10 Desktop Runtime installed on the PC (https://dotnet.microsoft.com/download/dotnet/10.0), which Microsoft Update keeps patched. The SHA-256 checksum is in SHA256SUMS."
+            --notes "Built from $GITHUB_SHA on the deploy branch. For Windows 10 and 11 on x64 PCs: unpack and run \`folder-size.exe\` (about 450 KB). It runs on the .NET 10 Desktop Runtime installed on the PC (https://dotnet.microsoft.com/download/dotnet/10.0), which Microsoft Update keeps patched. The SHA-256 checksum is in SHA256SUMS."

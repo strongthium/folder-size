@@ -3,7 +3,7 @@
     Builds folder-size and puts the finished program in public\.
 
 .DESCRIPTION
-    Runs the tests, then publishes folder-size-win-x64-needs-dotnet.exe: about 400 KB, for x64 PCs, running on the
+    Runs the tests, then publishes folder-size-win-x64-needs-dotnet.exe: about 450 KB, for x64 PCs, running on the
     .NET 10 Desktop Runtime installed on the PC (https://dotnet.microsoft.com/download/dotnet/10.0), which Microsoft
     Update keeps patched.
 
